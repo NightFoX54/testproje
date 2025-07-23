@@ -13,7 +13,7 @@ type ServiceTemplate = {
 type UserIntegration = {
   template_id: number;
   status: string;
-  credentials: any;
+  credentials: unknown;
   created_at: string;
   updated_at: string;
 };
