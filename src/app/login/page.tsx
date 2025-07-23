@@ -40,7 +40,7 @@ export default function LoginPage() {
         // Burada yönlendirme veya başka bir işlem yapılabilir
         router.push('/dashboard');
       }
-    } catch (err) {
+    } catch {
       setError('Bir hata oluştu');
     } finally {
       setLoading(false);

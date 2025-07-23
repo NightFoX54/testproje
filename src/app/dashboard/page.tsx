@@ -49,6 +49,11 @@ export default function DashboardPage() {
         const templatesData = await templatesRes.json();
         console.log("templatesData", templatesData);
         if (!templatesRes.ok) throw new Error(templatesData.message || 'Servis şablonları alınamadı');
+        if (templatesRes.status === 401 || templatesRes.status === 403) {
+          localStorage.removeItem('access_token');
+          router.push('/login');
+          return;
+        }
         setServiceTemplates(
           Array.isArray(templatesData.data?.data) ? templatesData.data.data : []
         );
@@ -69,8 +74,12 @@ export default function DashboardPage() {
         setUserIntegrations(
           Array.isArray(integrationsData.data?.data) ? integrationsData.data.data : []
         );
-      } catch (err: any) {
-        setError(err.message || 'Veriler alınamadı');
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message || 'Veriler alınamadı');
+        } else {
+          setError('Veriler alınamadı');
+        }
       } finally {
         setLoading(false);
       }
